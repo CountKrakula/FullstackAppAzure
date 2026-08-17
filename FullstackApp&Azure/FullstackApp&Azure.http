@@ -1,0 +1,6 @@
+@FullstackApp_Azure_HostAddress = http://localhost:5267
+
+GET {{FullstackApp_Azure_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
