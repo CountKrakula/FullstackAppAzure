@@ -18,5 +18,8 @@ namespace FullstackApp_Azure.Models
         public DateOnly NextBillingDate { get; set; }
 
         public Category Category { get; set; }
+
+        // 1 to many relationship, 1 subscription has many payments 
+        public ICollection<PaymentHistory> PaymentHistories { get; set; }
     }
 }
