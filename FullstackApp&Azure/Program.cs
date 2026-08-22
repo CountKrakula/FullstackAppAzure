@@ -1,4 +1,7 @@
 
+using FullstackApp_Azure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace FullstackApp_Azure
 {
     public class Program
@@ -12,6 +15,11 @@ namespace FullstackApp_Azure
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+
+            builder.Services.AddDbContext<SubscriptionDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
