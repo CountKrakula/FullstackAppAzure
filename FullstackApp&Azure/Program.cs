@@ -1,5 +1,9 @@
 
 using FullstackApp_Azure.Data;
+using FullstackApp_Azure.Repositories;
+using FullstackApp_Azure.Repositories.IRepository;
+using FullstackApp_Azure.Services;
+using FullstackApp_Azure.Services.IServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace FullstackApp_Azure
@@ -21,6 +25,10 @@ namespace FullstackApp_Azure
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
