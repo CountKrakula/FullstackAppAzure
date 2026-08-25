@@ -1,9 +1,5 @@
 ﻿using FullstackApp_Azure.DTOs;
-using FullstackApp_Azure.Models;
-using FullstackApp_Azure.Repositories;
-using FullstackApp_Azure.Repositories.IRepository;
 using FullstackApp_Azure.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FullstackApp_Azure.Controllers
@@ -29,11 +25,11 @@ namespace FullstackApp_Azure.Controllers
         [Route("{id}")]
         public async Task<ActionResult<SubscriptionDTO>>  GetSubscriptionById(int id)
         {
-            var subscriptions = await _subscriptionService.GetSubscriptionById(id);
-            if (subscriptions == null)
-                return NotFound();
+            var subscription = await _subscriptionService.GetSubscriptionById(id);
+            if (subscription == null)
+                return NoContent();
             
-            return Ok(subscriptions);
+            return Ok(subscription);
             
         }
 
