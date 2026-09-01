@@ -1,5 +1,6 @@
 
 using FullstackApp_Azure.Data;
+using FullstackApp_Azure.Middleware;
 using FullstackApp_Azure.Repositories;
 using FullstackApp_Azure.Repositories.IRepository;
 using FullstackApp_Azure.Services;
@@ -33,6 +34,8 @@ namespace FullstackApp_Azure
             
             var app = builder.Build();
 
+            app.UseMiddleware<GlobalExceptionMiddleware>();
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
