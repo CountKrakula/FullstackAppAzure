@@ -5,6 +5,7 @@ using FullstackApp_Azure.Repositories.IRepository;
 using FullstackApp_Azure.Services;
 using FullstackApp_Azure.Services.IServices;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 namespace FullstackApp_Azure
 {
@@ -35,6 +36,7 @@ namespace FullstackApp_Azure
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();

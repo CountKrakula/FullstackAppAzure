@@ -13,7 +13,7 @@ namespace FullstackApp_Azure.Models
 
         public BillingIntervalType BillingInterval { get; set; }
         public DateOnly StartDate { get; set; }
-        public DateOnly EndDate { get; set;  }
+        public DateOnly? EndDate { get; set;  }
         public bool IsActive { get; set; }
         public DateOnly NextBillingDate { get; set; }
 

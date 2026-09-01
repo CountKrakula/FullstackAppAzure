@@ -7,7 +7,7 @@ namespace FullstackApp_Azure.Repositories;
 
 public class SubscriptionRepository : ISubscriptionRepository
 {
-    private SubscriptionDbContext _context;
+    private readonly SubscriptionDbContext _context;
 
     public SubscriptionRepository(SubscriptionDbContext context)
     {
@@ -22,6 +22,27 @@ public class SubscriptionRepository : ISubscriptionRepository
 
     public async Task<List<Subscription>> GetSubscriptions()
     {
-        return await _context.Subscriptions.ToListAsync();
+        // AsNoTracking() skips EF's change-tracking overhead
+        return await _context.Subscriptions.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<Subscription> CreateSubscription(Subscription newSubscription)
+    {
+        _context.Subscriptions.Add(newSubscription);
+        await  _context.SaveChangesAsync();
+        return newSubscription;
+    }
+
+    public async Task<bool> UpdateSubscription(Subscription subscription)
+    {
+        _context.Subscriptions.Update(subscription);
+        var result = await _context.SaveChangesAsync();
+        return  result > 0;
+    }
+
+    public async Task<bool> DeleteSubscription(int subscriptionId)
+    {
+        var rowsAffected = await _context.Subscriptions.Where(s => s.Id == subscriptionId).ExecuteDeleteAsync();
+        return rowsAffected > 0; 
     }
 }
