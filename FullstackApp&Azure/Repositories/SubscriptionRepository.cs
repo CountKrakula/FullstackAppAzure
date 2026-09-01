@@ -16,7 +16,8 @@ public class SubscriptionRepository : ISubscriptionRepository
     
     public async Task<Subscription> GetSubscriptionById(int id)
     {
-        return await _context.Subscriptions.FirstOrDefaultAsync(s => s.Id == id);
+        // For read only operations, AsNoTracking() minimizes computation 
+        return await _context.Subscriptions.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
         
     }
 

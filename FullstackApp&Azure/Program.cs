@@ -26,6 +26,7 @@ namespace FullstackApp_Azure
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            // Added to service container
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             
@@ -41,7 +42,8 @@ namespace FullstackApp_Azure
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication(); // who are you?
+            app.UseAuthorization();  // are you allowed?
 
 
             app.MapControllers();

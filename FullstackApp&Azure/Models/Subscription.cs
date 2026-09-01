@@ -1,10 +1,13 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FullstackApp_Azure.Models
 {
+    [Index(nameof(Name))] // Index the Name column
     public class Subscription
     {
         public int Id { get; set; }
+        
+      
         public string Name { get; set; }
 
         public decimal Cost { get; set; }

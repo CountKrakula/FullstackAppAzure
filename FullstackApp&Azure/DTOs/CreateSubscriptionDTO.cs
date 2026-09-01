@@ -9,7 +9,7 @@ public class CreateSubscriptionDTO
     [StringLength(100, MinimumLength = 2, ErrorMessage = "String must be between 2 and 100 characters in length.")]
     public string Name { get; set; }
     
-    [Range(0, 2999, ErrorMessage ="Cost must be positive")]
+    [Range(0, 100000, ErrorMessage ="Cost must be positive")]
     public decimal Cost { get; set; }
     
     public int CategoryId { get; set; }
