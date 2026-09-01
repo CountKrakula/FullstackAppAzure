@@ -84,13 +84,29 @@ public class SubscriptionService : ISubscriptionService
         };
     }
 
-    public Task<bool> UpdateSubscription(int id, UpdateSubscriptionDTO subscription)
+    public async Task<bool> UpdateSubscription(int id, UpdateSubscriptionDTO subscription)
     {
-        throw new NotImplementedException();
+        var existingSubscription = await _subscriptionRepository.GetSubscriptionById(id);
+
+        if (existingSubscription == null)
+        {
+            return false;
+        }
+        
+        existingSubscription.Name = subscription.Name;
+        existingSubscription.Cost = subscription.Cost;
+        existingSubscription.CategoryId = subscription.CategoryId;
+        existingSubscription.BillingInterval = subscription.BillingInterval;
+        existingSubscription.StartDate = subscription.StartDate;
+        existingSubscription.EndDate = subscription.EndDate;
+        existingSubscription.IsActive = subscription.IsActive;
+        existingSubscription.NextBillingDate = subscription.NextBillingDate;
+        
+        return await _subscriptionRepository.UpdateSubscription(existingSubscription);
     }
 
-    public Task<bool> DeleteSubscription(int id)
+    public async Task<bool> DeleteSubscription(int id)
     {
-        throw new NotImplementedException();
+        return await _subscriptionRepository.DeleteSubscription(id);
     }
 }
