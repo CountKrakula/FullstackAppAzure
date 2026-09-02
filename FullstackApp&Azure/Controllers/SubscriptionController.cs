@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FullstackApp_Azure.Controllers
 {
+    [Authorize] // "Must be logged in" (any authenticated user), the placement means all 5 endpoints require login
     [Route("api/[controller]")]
     [ApiController]
     public class SubscriptionController : ControllerBase
@@ -17,7 +18,7 @@ namespace FullstackApp_Azure.Controllers
             _subscriptionService = subscriptionService;
         }
         
-        [Authorize] // "Must be logged in" (any authenticated user)
+       
         [HttpGet]
         public async Task<ActionResult<List<SubscriptionDTO>>> GetAllSubscriptions()
         {
@@ -25,7 +26,7 @@ namespace FullstackApp_Azure.Controllers
             return Ok(subscriptions);
         }
         
-        [Authorize]  
+      
         [HttpGet]
         [Route("{id:int}")] // Route constraint — restricts {id} to only match integers.
         public async Task<ActionResult<SubscriptionDTO>>  GetSubscriptionById(int id)

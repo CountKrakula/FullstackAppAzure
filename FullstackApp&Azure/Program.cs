@@ -5,6 +5,7 @@ using FullstackApp_Azure.Repositories;
 using FullstackApp_Azure.Repositories.IRepository;
 using FullstackApp_Azure.Services;
 using FullstackApp_Azure.Services.IServices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -31,6 +32,8 @@ namespace FullstackApp_Azure
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             
+            builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+                .AddEntityFrameworkStores<SubscriptionDbContext>();
             
             var app = builder.Build();
 
@@ -47,7 +50,8 @@ namespace FullstackApp_Azure
 
             app.UseAuthentication(); // who are you?
             app.UseAuthorization();  // are you allowed?
-
+            
+            app.MapIdentityApi<IdentityUser>(); // auto-generates /register, /login, /logout 
 
             app.MapControllers();
 
