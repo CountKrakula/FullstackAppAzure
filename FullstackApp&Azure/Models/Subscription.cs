@@ -1,11 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace FullstackApp_Azure.Models
 {
     [Index(nameof(Name))] // Index the Name column
     public class Subscription
     {
-        public int Id { get; set; }
+        public int Id { get; set; } // Subscription ID 
+        
+        [Required]
+        public string UserId { get; set; } // This will be used to filter on users
         
       
         public string Name { get; set; }

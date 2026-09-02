@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>FullstackApp_Azure</RootNamespace>
     <UserSecretsId>dadad98c-100d-457b-a658-da819ea1b94e</UserSecretsId>
+<AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
   </PropertyGroup>
 
   <ItemGroup>
