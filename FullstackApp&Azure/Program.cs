@@ -32,7 +32,10 @@ namespace FullstackApp_Azure
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             
-            builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+            builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
+                {
+                    options.User.RequireUniqueEmail = true; // Require unique emails for identity email/login
+                })
                 .AddEntityFrameworkStores<SubscriptionDbContext>();
             
             var app = builder.Build();
