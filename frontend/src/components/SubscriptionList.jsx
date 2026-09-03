@@ -18,9 +18,17 @@ export default function SubscriptionList() {
   }, []);
 
   return (
-    <div>
+    <> 
+    
       <h1>Subscription List</h1>
-      {/* Add your subscription list content here */}
-    </div>
+      <ul>        
+          {subscriptions.map(subscription => (
+            <li key={subscription.id}>
+            <b>{subscription.name}</b> - {subscription.cost} kr / {subscription.billingInterval}
+            </li>
+      ))}
+      </ul>
+    
+    </>
   )
 }
