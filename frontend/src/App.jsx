@@ -1,4 +1,5 @@
 import SubscriptionList from './components/SubscriptionList'
+import SubscriptionCreate from './components/SubscriptionCreate'
 import './App.css'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
       <SubscriptionList/>
+      <SubscriptionCreate/>
     </>
   )
 }
