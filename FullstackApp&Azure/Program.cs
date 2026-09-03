@@ -37,6 +37,16 @@ namespace FullstackApp_Azure
                     options.User.RequireUniqueEmail = true; // Require unique emails for identity email/login
                 })
                 .AddEntityFrameworkStores<SubscriptionDbContext>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             
             var app = builder.Build();
 
@@ -51,6 +61,8 @@ namespace FullstackApp_Azure
 
             app.UseHttpsRedirection();
 
+            app.UseCors("CorsPolicy");
+            
             app.UseAuthentication(); // who are you?
             app.UseAuthorization();  // are you allowed?
             
