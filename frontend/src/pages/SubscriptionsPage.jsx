@@ -9,7 +9,11 @@ export default function SubscriptionsPage() {
 
   async function getSubscriptions() {
     try {
-      const response = await axios.get('https://localhost:7031/api/Subscription');
+      const token = localStorage.getItem('token');
+      const response = await axios.get('https://localhost:7031/api/Subscription', {
+        // Sends the token so the backend's [Authorize] check accepts this request
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setSubscriptions(response.data);
     } catch (error) {
       console.error('Error fetching subscriptions:', error);
@@ -23,7 +27,10 @@ export default function SubscriptionsPage() {
   async function createSubscription(data) {
 
     try {
-      const response = await axios.post('https://localhost:7031/api/Subscription', data);
+      const token = localStorage.getItem('token');
+      const response = await axios.post('https://localhost:7031/api/Subscription', data, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       console.log('Subscription created:', response.data);
       getSubscriptions(); // refresh list after creating
     } catch (error) {
@@ -33,7 +40,10 @@ export default function SubscriptionsPage() {
 
   async function deleteSubscription(id) {
     try {
-      await axios.delete(`https://localhost:7031/api/Subscription/${id}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`https://localhost:7031/api/Subscription/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       getSubscriptions(); // refresh list after deleting
     } catch (error) {
       console.error('Error deleting subscription:', error);
@@ -42,7 +52,11 @@ export default function SubscriptionsPage() {
 
   async function updateSubscription(id, updatedData) {
     try {
-      await axios.put(`https://localhost:7031/api/Subscription/${id}`, updatedData);
+
+      const token = localStorage.getItem('token');
+      await axios.put(`https://localhost:7031/api/Subscription/${id}`, updatedData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       getSubscriptions();
     } catch (error) {
       console.error('Error updating subscription:', error);

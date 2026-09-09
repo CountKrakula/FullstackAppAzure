@@ -14,7 +14,8 @@ const Login = () => {
     const data = { email, password };
     axios.post('https://localhost:7031/login', data)
       .then(response => {
-        console.log(response.data);
+        // Store the token in localStorage
+        localStorage.setItem('token', response.data.accessToken);
       })
       .catch(err => console.log("Error", err));
   }
