@@ -1,4 +1,5 @@
 import SubscriptionsPage from './pages/SubscriptionsPage'
+import Login from './pages/Login'
 import './App.css'
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
       <SubscriptionsPage/>
+      <Login/>
     </>
   )
 }
