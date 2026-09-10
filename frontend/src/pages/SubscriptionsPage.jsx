@@ -22,7 +22,7 @@ export default function SubscriptionsPage() {
   async function handleCreate(data) {
     try {
       await createSub(data);
-      getSubscriptions();
+      await getSubscriptions();
     } catch (error) {
       console.error('Error creating subscription:', error);
     }
@@ -31,7 +31,7 @@ export default function SubscriptionsPage() {
   async function handleDelete(id) {
     try {
       await deleteSub(id);
-      getSubscriptions();
+      await getSubscriptions();
     } catch (error) {
       console.error('Error deleting subscription:', error);
     }
@@ -40,7 +40,7 @@ export default function SubscriptionsPage() {
   async function handleUpdate(id, updatedData) {
     try {
       await updateSub(id, updatedData);
-      getSubscriptions();
+      await getSubscriptions();
     } catch (error) {
       console.error('Error updating subscription:', error);
     }
