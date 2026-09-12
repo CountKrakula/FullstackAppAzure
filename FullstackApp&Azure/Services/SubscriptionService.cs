@@ -14,12 +14,13 @@ public class SubscriptionService : ISubscriptionService
         _subscriptionRepository =  subscriptionRepository;
     }
     
-    public async Task<List<SubscriptionDTO>> GetSubscriptions()
+    public async Task<List<SubscriptionDTO>> GetSubscriptions(string userId)
     {
-        var subscriptions = await _subscriptionRepository.GetSubscriptions();
+        var subscriptions = await _subscriptionRepository.GetSubscriptions(userId);
         
         return subscriptions.Select(s => new SubscriptionDTO
         {
+            
             Id = s.Id,
             Name = s.Name,
             Cost = s.Cost,
@@ -33,9 +34,9 @@ public class SubscriptionService : ISubscriptionService
         }).ToList();
     }
     
-    public async Task<SubscriptionDTO> GetSubscriptionById(int id)
+    public async Task<SubscriptionDTO> GetSubscriptionById(int id, string userId)
     {
-        var subscription = await _subscriptionRepository.GetSubscriptionById(id);
+        var subscription = await _subscriptionRepository.GetSubscriptionById(id, userId);
 
         if (subscription == null)
             return null;
@@ -54,10 +55,11 @@ public class SubscriptionService : ISubscriptionService
         };
     }
 
-    public async Task<SubscriptionDTO> CreateSubscription(CreateSubscriptionDTO newSubscription)
+    public async Task<SubscriptionDTO> CreateSubscription(CreateSubscriptionDTO newSubscription, string userId)
     {
         var subscription = new Subscription
         {
+            UserId = userId,
             Name = newSubscription.Name,
             Cost = newSubscription.Cost,
             CategoryId = newSubscription.CategoryId,
@@ -84,9 +86,9 @@ public class SubscriptionService : ISubscriptionService
         };
     }
 
-    public async Task<bool> UpdateSubscription(int id, UpdateSubscriptionDTO subscription)
+    public async Task<bool> UpdateSubscription(int id, UpdateSubscriptionDTO subscription, string userId)
     {
-        var existingSubscription = await _subscriptionRepository.GetSubscriptionById(id);
+        var existingSubscription = await _subscriptionRepository.GetSubscriptionById(id, userId);
 
         if (existingSubscription == null)
         {
@@ -105,8 +107,8 @@ public class SubscriptionService : ISubscriptionService
         return await _subscriptionRepository.UpdateSubscription(existingSubscription);
     }
 
-    public async Task<bool> DeleteSubscription(int id)
+    public async Task<bool> DeleteSubscription(int id, string userId)
     {
-        return await _subscriptionRepository.DeleteSubscription(id);
+        return await _subscriptionRepository.DeleteSubscription(id, userId);
     }
 }

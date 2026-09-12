@@ -1,23 +1,21 @@
 import '../App.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-import axios from 'axios'
+import { loginWithCookie } from '../services/AuthService'
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  function handleSubmit(e) {
-
+  async function handleSubmit(e) {
     e.preventDefault();
-    const data = { email, password };
-    axios.post('https://localhost:7031/login', data)
-      .then(response => {
-        // Store the token in localStorage
-        localStorage.setItem('token', response.data.accessToken);
-      })
-      .catch(err => console.log("Error", err));
+    try {
+      await loginWithCookie(email, password);
+      console.log('Logged in!');
+    } catch (err) {
+      console.log("Error", err);
+    }
   }
 
   return (

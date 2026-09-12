@@ -14,17 +14,17 @@ public class SubscriptionRepository : ISubscriptionRepository
         _context = context;
     }
     
-    public async Task<Subscription> GetSubscriptionById(int id)
+    public async Task<Subscription> GetSubscriptionById(int id, string userId)
     {
         // For read only operations, AsNoTracking() minimizes computation 
-        return await _context.Subscriptions.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
+        return await _context.Subscriptions.AsNoTracking().FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);
         
     }
 
-    public async Task<List<Subscription>> GetSubscriptions()
+    public async Task<List<Subscription>> GetSubscriptions(string userId)
     {
         // AsNoTracking() skips EF's change-tracking overhead
-        return await _context.Subscriptions.AsNoTracking().ToListAsync();
+        return await _context.Subscriptions.AsNoTracking().Where(s => s.UserId == userId).ToListAsync();
     }
 
     public async Task<Subscription> CreateSubscription(Subscription newSubscription)
@@ -41,9 +41,9 @@ public class SubscriptionRepository : ISubscriptionRepository
         return  result > 0;
     }
 
-    public async Task<bool> DeleteSubscription(int subscriptionId)
+    public async Task<bool> DeleteSubscription(int subscriptionId, string userId)
     {
-        var rowsAffected = await _context.Subscriptions.Where(s => s.Id == subscriptionId).ExecuteDeleteAsync();
+        var rowsAffected = await _context.Subscriptions.Where(s => s.Id == subscriptionId && s.UserId == userId).ExecuteDeleteAsync();
         return rowsAffected > 0; 
     }
 }

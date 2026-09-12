@@ -1,16 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: "https://localhost:7031/api/"
+    baseURL: "https://localhost:7031/api/",
+    withCredentials: true
 });
 
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
 
 export const getAllSubscriptions = async () => {
     const response = await api.get("Subscription");
