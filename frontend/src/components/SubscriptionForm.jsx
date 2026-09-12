@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const SubscriptionForm = ({ initialData, onSubmit }) => {
+const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
 
     // one form handle both Create and Edit
     // Create: initialData is undefined, so name starts empty.
@@ -31,7 +31,13 @@ const SubscriptionForm = ({ initialData, onSubmit }) => {
 
 
             <label htmlFor="categoryId">categoryId</label>
-            <input type="number" id="categoryId" name="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} />
+            <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} >
+                <option value="">Select a category</option>
+                {categories.map(category => (
+                    <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                
+            </select>
 
             <label htmlFor="billingInterval">Billing Interval</label>
             <select id="billingInterval" name="billingInterval" value={billingInterval} onChange={(e) => setBillingInterval(e.target.value)} >

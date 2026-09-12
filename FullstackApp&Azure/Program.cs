@@ -31,7 +31,9 @@ namespace FullstackApp_Azure
             // Added to service container
             builder.Services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
-            
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
                 {
                     options.User.RequireUniqueEmail = true; // Require unique emails for identity email/login

@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import SubscriptionForm from '../components/SubscriptionForm'
 import { getAllSubscriptions, createSubscription as createSub, updateSubscription as updateSub, deleteSubscription as deleteSub } from '../services/SubscriptionService';
+import CategoryForm from '../components/CategoryForm'
+import { getAllCategories, createCategory} from '../services/CategoryService';
+
 
 export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [editingSubscription, setEditingSubscription] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   async function getSubscriptions() {
     try {
@@ -15,8 +19,19 @@ export default function SubscriptionsPage() {
     }
   }
 
+    async function getCategories() {
+    try {
+      const categoryList = await getAllCategories();
+      setCategories(categoryList);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }
+
+
   useEffect(() => {
     getSubscriptions();
+    getCategories();
   }, []);
 
   async function handleCreate(data) {
@@ -25,6 +40,15 @@ export default function SubscriptionsPage() {
       await getSubscriptions();
     } catch (error) {
       console.error('Error creating subscription:', error);
+    }
+  }
+
+    async function handleCreateCategory(data) {
+    try {
+      await createCategory(data);
+      await getCategories();
+    } catch (error) {
+      console.error('Error creating category:', error);
     }
   }
 
@@ -49,14 +73,19 @@ export default function SubscriptionsPage() {
   return (
     <>
       <main>
-        <SubscriptionForm onSubmit={handleCreate} />
+        <SubscriptionForm onSubmit={handleCreate} categories={categories} />
+        <CategoryForm onSubmit={handleCreateCategory} />
 
         {editingSubscription && (
           <SubscriptionForm
             initialData={editingSubscription}
             onSubmit={(data) => handleUpdate(editingSubscription.id, data)}
+            categories={categories}
           />
+          
         )}
+
+     
 
         <h1>Subscription List</h1>
         <ul>
