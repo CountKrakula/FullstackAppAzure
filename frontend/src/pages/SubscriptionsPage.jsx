@@ -3,12 +3,24 @@ import SubscriptionForm from '../components/SubscriptionForm'
 import { getAllSubscriptions, createSubscription as createSub, updateSubscription as updateSub, deleteSubscription as deleteSub } from '../services/SubscriptionService';
 import CategoryForm from '../components/CategoryForm'
 import { getAllCategories, createCategory} from '../services/CategoryService';
+import { useNavigate } from 'react-router-dom'
+import { logout } from '../services/AuthService'
 
 
 export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [editingSubscription, setEditingSubscription] = useState(null);
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  }
 
   async function getSubscriptions() {
     try {
@@ -88,6 +100,7 @@ export default function SubscriptionsPage() {
      
 
         <h1>Subscription List</h1>
+        <button onClick={handleLogout}>Logout</button>
         <ul>
           {subscriptions.map(sub => (
             <li key={sub.id}>

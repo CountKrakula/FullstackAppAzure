@@ -80,7 +80,15 @@ namespace FullstackApp_Azure
 
             var api = app.MapGroup("/api");
             
-            api.MapIdentityApi<IdentityUser>(); // auto-generates /register, /login, /logout 
+            api.MapIdentityApi<IdentityUser>(); // auto-generates /register, /login
+
+            // MapIdentityApi doesn't provide a /logout endpoint out of the box,
+            // so this manually signs the user out and clears their auth cookie
+            api.MapPost("/logout", async (SignInManager<IdentityUser> signInManager) =>
+            {
+                await signInManager.SignOutAsync();
+                return Results.Ok();
+            }).RequireAuthorization();
 
             app.MapControllers();
 

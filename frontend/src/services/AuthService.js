@@ -9,6 +9,14 @@ export async function loginWithCookie(email, password){
     await api.post("login?useCookies=true", {email, password});
 }
 
+export async function register(email, password) {
+    await api.post("register", { email, password });
+}
+
+export async function logout() {
+    await api.post("logout", {});
+}
+
 export async function checkAuthentication(){
     try{
         await api.get("manage/info")
