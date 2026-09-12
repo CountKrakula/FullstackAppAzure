@@ -75,8 +75,10 @@ namespace FullstackApp_Azure
             
             app.UseAuthentication(); // who are you?
             app.UseAuthorization();  // are you allowed?
+
+            var api = app.MapGroup("/api");
             
-            app.MapIdentityApi<IdentityUser>(); // auto-generates /register, /login, /logout 
+            api.MapIdentityApi<IdentityUser>(); // auto-generates /register, /login, /logout 
 
             app.MapControllers();
 
