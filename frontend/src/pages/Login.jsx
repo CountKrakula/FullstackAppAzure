@@ -2,17 +2,20 @@ import '../App.css'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { loginWithCookie } from '../services/AuthService'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
       await loginWithCookie(email, password);
       console.log('Logged in!');
+      navigate("/subscriptions");
     } catch (err) {
       console.log("Error", err);
     }
