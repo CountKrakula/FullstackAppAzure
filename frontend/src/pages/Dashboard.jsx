@@ -48,28 +48,35 @@ export default function Dashboard() {
     return (
         <main>
 
+            <div className="card bg-base-100 shadow-sm">
+                <div className="card-body">
+                    <h1 className="card-title">Dashboard</h1>
+                    <p>Total Monthly Cost: {totalMonthlyCost} </p>
+                    <p>Total Weekly Cost: {totalWeeklyCost} </p>
+                    <p>Total Yearly Cost: {totalYearlyCost} </p>
+                </div>
+            </div>
+            <div className="card bg-base-100 shadow-sm">
+                <div className="card-body">
+                    <h2 className="card-title">Cost by Category</h2>
+                    <ul>
+                        {categories.map(category => {
+                            // For each category, find only the subscriptions that belong to it
+                            const subsInThisCategory = subscriptions.filter(sub => sub.categoryId === category.id);
 
-            <h1>Dashboard</h1>
-            <p>Total Monthly Cost: {totalMonthlyCost} </p>
-            <p>Total Weekly Cost: {totalWeeklyCost} </p>
-            <p>Total Yearly Cost: {totalYearlyCost} </p>
-            <h2>Cost by Category</h2>
-            <ul>
-                {categories.map(category => {
-                    // For each category, find only the subscriptions that belong to it
-                    const subsInThisCategory = subscriptions.filter(sub => sub.categoryId === category.id);
+                            // Add up the cost of just those matching subscriptions, starting from 0
+                            const total = subsInThisCategory.reduce((sum, sub) => sum + sub.cost, 0);
 
-                    // Add up the cost of just those matching subscriptions, starting from 0
-                    const total = subsInThisCategory.reduce((sum, sub) => sum + sub.cost, 0);
-
-                    // Render one list item per category, showing its name and total cost
-                    return (
-                        <li key={category.id}>
-                            <b>{category.name}</b> - {total} kr
-                        </li>
-                    );
-                })}
-            </ul>
+                            // Render one list item per category, showing its name and total cost
+                            return (
+                                <li key={category.id}>
+                                    <b>{category.name}</b> - {total} kr
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </div>
         </main>
     )
 }

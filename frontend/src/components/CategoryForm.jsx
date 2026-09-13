@@ -14,8 +14,8 @@ const CategoryForm = ({ initialData, onSubmit }) => {
         <main>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-                <button type="submit">Save</button>
+                <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="input input-bordered" required />
+                <button type="submit" className="btn btn-primary">Save</button>
             </form>
         </main>
     )

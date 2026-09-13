@@ -24,14 +24,14 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
         <form onSubmit={handleSubmit}>
 
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="input input-bordered" required/>
 
             <label htmlFor="cost">Cost</label>
-            <input type="number" id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} />
+            <input type="number" id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} className="input input-bordered" required/>
 
 
             <label htmlFor="categoryId">categoryId</label>
-            <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} >
+            <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} className="select select-bordered">
                 <option value="">Select a category</option>
                 {categories.map(category => (
                     <option key={category.id} value={category.id}>{category.name}</option>
@@ -40,7 +40,7 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
             </select>
 
             <label htmlFor="billingInterval">Billing Interval</label>
-            <select id="billingInterval" name="billingInterval" value={billingInterval} onChange={(e) => setBillingInterval(e.target.value)} >
+            <select id="billingInterval" name="billingInterval" value={billingInterval} onChange={(e) => setBillingInterval(e.target.value)}  className="select select-bordered" >
                 {/* Modeled after the backend model as numerical values */}
                 <option value="0">Weekly</option>
                 <option value="1">Monthly</option>
@@ -49,9 +49,9 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
 
 
             <label htmlFor="startDate">startDate </label>
-            <input type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+            <input type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input input-bordered" required />
 
-            <button type="submit">Save</button>
+            <button type="submit" className="btn btn-primary">Save</button>
         </form>
     )
 }

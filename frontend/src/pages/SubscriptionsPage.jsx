@@ -100,13 +100,13 @@ export default function SubscriptionsPage() {
      
 
         <h1>Subscription List</h1>
-        <button onClick={handleLogout}>Logout</button>
+        <button className="btn btn-ghost" onClick={handleLogout}>Logout</button>
         <ul>
           {subscriptions.map(sub => (
             <li key={sub.id}>
               <b>{sub.name}</b> - {sub.cost} kr / {sub.billingInterval}
-              <button onClick={() => handleDelete(sub.id)}>Delete</button>
-              <button onClick={() => setEditingSubscription(sub)}>Edit</button>
+              <button className="btn btn-error" onClick={() => handleDelete(sub.id)}>Delete</button>
+              <button className="btn btn-secondary" onClick={() => setEditingSubscription(sub)}>Edit</button>
             </li>
           ))}
         </ul>
