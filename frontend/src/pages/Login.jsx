@@ -15,7 +15,7 @@ const Login = () => {
     try {
       await loginWithCookie(email, password);
       console.log('Logged in!');
-      navigate("/subscriptions");
+      navigate("/dashboard");
     } catch (err) {
       console.log("Error", err);
     }
