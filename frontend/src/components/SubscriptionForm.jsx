@@ -21,17 +21,17 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
             <label htmlFor="name">Name</label>
-            <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="input input-bordered" required/>
+            <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="input input-bordered w-full" required/>
 
             <label htmlFor="cost">Cost</label>
-            <input type="number" id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} className="input input-bordered" required/>
+            <input type="number" id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} className="input input-bordered w-full" required/>
 
 
             <label htmlFor="categoryId">categoryId</label>
-            <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} className="select select-bordered">
+            <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} className="select select-bordered w-full">
                 <option value="">Select a category</option>
                 {categories.map(category => (
                     <option key={category.id} value={category.id}>{category.name}</option>
@@ -40,7 +40,7 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
             </select>
 
             <label htmlFor="billingInterval">Billing Interval</label>
-            <select id="billingInterval" name="billingInterval" value={billingInterval} onChange={(e) => setBillingInterval(e.target.value)}  className="select select-bordered" >
+            <select id="billingInterval" name="billingInterval" value={billingInterval} onChange={(e) => setBillingInterval(e.target.value)}  className="select select-bordered w-full" >
                 {/* Modeled after the backend model as numerical values */}
                 <option value="0">Weekly</option>
                 <option value="1">Monthly</option>
@@ -49,7 +49,7 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
 
 
             <label htmlFor="startDate">startDate </label>
-            <input type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input input-bordered" required />
+            <input type="date" id="startDate" name="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input input-bordered w-full" required />
 
             <button type="submit" className="btn btn-primary">Save</button>
         </form>

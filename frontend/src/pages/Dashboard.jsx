@@ -46,7 +46,7 @@ export default function Dashboard() {
 
 
     return (
-        <main>
+        <main className="flex flex-col items-center gap-6 min-h-screen p-6">
 
             <div className="card bg-base-100 shadow-sm">
                 <div className="card-body">
@@ -59,7 +59,7 @@ export default function Dashboard() {
             <div className="card bg-base-100 shadow-sm">
                 <div className="card-body">
                     <h2 className="card-title">Cost by Category</h2>
-                    <ul>
+                    <ul className="flex flex-col gap-3">
                         {categories.map(category => {
                             // For each category, find only the subscriptions that belong to it
                             const subsInThisCategory = subscriptions.filter(sub => sub.categoryId === category.id);
@@ -69,7 +69,7 @@ export default function Dashboard() {
 
                             // Render one list item per category, showing its name and total cost
                             return (
-                                <li key={category.id}>
+                                <li key={category.id} className="flex items-center gap-3">
                                     <b>{category.name}</b> - {total} kr
                                 </li>
                             );

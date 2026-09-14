@@ -84,7 +84,7 @@ export default function SubscriptionsPage() {
 
   return (
     <>
-      <main>
+      <main  className="flex flex-col gap-8 max-w-2xl mx-auto p-6">
         <SubscriptionForm onSubmit={handleCreate} categories={categories} />
         <CategoryForm onSubmit={handleCreateCategory} />
 
@@ -99,14 +99,14 @@ export default function SubscriptionsPage() {
 
      
 
-        <h1>Subscription List</h1>
+        <h1 className="text-2xl font-bold">Subscription List</h1>
         <button className="btn btn-ghost" onClick={handleLogout}>Logout</button>
-        <ul>
+        <ul className="flex flex-col gap-3">
           {subscriptions.map(sub => (
-            <li key={sub.id}>
+            <li key={sub.id} className="flex items-center gap-3">
               <b>{sub.name}</b> - {sub.cost} kr / {sub.billingInterval}
-              <button className="btn btn-error" onClick={() => handleDelete(sub.id)}>Delete</button>
-              <button className="btn btn-secondary" onClick={() => setEditingSubscription(sub)}>Edit</button>
+              <button className="btn btn-error btn-sm" onClick={() => handleDelete(sub.id)}>Delete</button>
+              <button className="btn btn-secondary btn-sm" onClick={() => setEditingSubscription(sub)}>Edit</button>
             </li>
           ))}
         </ul>
