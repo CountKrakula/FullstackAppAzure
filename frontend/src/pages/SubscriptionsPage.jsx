@@ -2,25 +2,13 @@ import { useState, useEffect } from 'react'
 import SubscriptionForm from '../components/SubscriptionForm'
 import { getAllSubscriptions, createSubscription as createSub, updateSubscription as updateSub, deleteSubscription as deleteSub } from '../services/SubscriptionService';
 import CategoryForm from '../components/CategoryForm'
-import { getAllCategories, createCategory} from '../services/CategoryService';
-import { useNavigate } from 'react-router-dom'
-import { logout } from '../services/AuthService'
+import { getAllCategories, createCategory } from '../services/CategoryService';
 
 
 export default function SubscriptionsPage() {
   const [subscriptions, setSubscriptions] = useState([]);
   const [editingSubscription, setEditingSubscription] = useState(null);
   const [categories, setCategories] = useState([]);
-  const navigate = useNavigate();
-
-  async function handleLogout() {
-    try {
-      await logout();
-      navigate("/login");
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
-  }
 
   async function getSubscriptions() {
     try {
@@ -31,7 +19,7 @@ export default function SubscriptionsPage() {
     }
   }
 
-    async function getCategories() {
+  async function getCategories() {
     try {
       const categoryList = await getAllCategories();
       setCategories(categoryList);
@@ -39,7 +27,6 @@ export default function SubscriptionsPage() {
       console.error('Error fetching categories:', error);
     }
   }
-
 
   useEffect(() => {
     getSubscriptions();
@@ -55,7 +42,7 @@ export default function SubscriptionsPage() {
     }
   }
 
-    async function handleCreateCategory(data) {
+  async function handleCreateCategory(data) {
     try {
       await createCategory(data);
       await getCategories();
@@ -82,9 +69,15 @@ export default function SubscriptionsPage() {
     }
   }
 
+  function getBillingLabel(interval) {
+    if (interval === 0) return "Weekly";
+    if (interval === 1) return "Monthly";
+    if (interval === 2) return "Yearly";
+  }
+
   return (
     <>
-      <main  className="flex flex-col gap-8 max-w-2xl mx-auto p-6">
+      <main className="flex flex-col gap-8 max-w-2xl mx-auto p-6">
         <SubscriptionForm onSubmit={handleCreate} categories={categories} />
         <CategoryForm onSubmit={handleCreateCategory} />
 
@@ -94,19 +87,20 @@ export default function SubscriptionsPage() {
             onSubmit={(data) => handleUpdate(editingSubscription.id, data)}
             categories={categories}
           />
-          
         )}
 
-     
-
         <h1 className="text-2xl font-bold">Subscription List</h1>
-        <button className="btn btn-ghost" onClick={handleLogout}>Logout</button>
         <ul className="flex flex-col gap-3">
           {subscriptions.map(sub => (
-            <li key={sub.id} className="flex items-center gap-3">
-              <b>{sub.name}</b> - {sub.cost} kr / {sub.billingInterval}
-              <button className="btn btn-error btn-sm" onClick={() => handleDelete(sub.id)}>Delete</button>
-              <button className="btn btn-secondary btn-sm" onClick={() => setEditingSubscription(sub)}>Edit</button>
+            <li key={sub.id} className="flex items-center justify-between gap-3">
+              <div>
+                <b>{sub.name}</b>
+                <p>{sub.cost} kr, billed {getBillingLabel(sub.billingInterval)}</p>
+              </div>
+              <div className="flex gap-2">
+                <button className="btn btn-error btn-sm" onClick={() => handleDelete(sub.id)}>Delete</button>
+                <button className="btn btn-secondary btn-sm" onClick={() => setEditingSubscription(sub)}>Edit</button>
+              </div>
             </li>
           ))}
         </ul>

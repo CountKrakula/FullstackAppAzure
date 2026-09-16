@@ -65,7 +65,7 @@ export default function Dashboard() {
                             const subsInThisCategory = subscriptions.filter(sub => sub.categoryId === category.id);
 
                             // Add up the cost of just those matching subscriptions, starting from 0
-                            const total = subsInThisCategory.reduce((sum, sub) => sum + sub.cost, 0);
+                            const total = subsInThisCategory.reduce((sum, sub) => sum + getMonthlyCost(sub), 0);
 
                             // Render one list item per category, showing its name and total cost
                             return (

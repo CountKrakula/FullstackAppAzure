@@ -13,7 +13,7 @@ const CategoryForm = ({ initialData, onSubmit }) => {
     return (
         
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <label htmlFor="name">Name</label>
+                <label htmlFor="name">Create Category Name</label>
                 <input type="text" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} className="input input-bordered w-full" required />
                 <button type="submit" className="btn btn-primary">Save</button>
             </form>

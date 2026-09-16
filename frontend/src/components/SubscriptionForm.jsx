@@ -30,7 +30,7 @@ const SubscriptionForm = ({ initialData, onSubmit, categories }) => {
             <input type="number" id="cost" name="cost" value={cost} onChange={(e) => setCost(e.target.value)} className="input input-bordered w-full" required/>
 
 
-            <label htmlFor="categoryId">categoryId</label>
+            <label htmlFor="categoryId">Category</label>
             <select id="categorId" name="categoryId" value={categoryId}  onChange={(e) => setCategoryId(e.target.value)} className="select select-bordered w-full">
                 <option value="">Select a category</option>
                 {categories.map(category => (
