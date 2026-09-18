@@ -24,7 +24,7 @@ jobs:
           node-version: '24.x'
 
       - name: npm install, build, and test
-      working-directory: ./frontend
+        working-directory: ./frontend
         run: |
           npm install
           npm run build --if-present
@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: ./frontend/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -45,6 +45,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
+          path: ./dist
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -52,5 +53,5 @@ jobs:
         with:
           app-name: 'SubscriptionAppFrontend'
           slot-name: 'Production'
-          package: .
+          package: ./dist
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9CC5ACF89306473399BC561FC4E42599 }}
