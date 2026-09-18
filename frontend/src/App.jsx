@@ -4,10 +4,10 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Layout from './components/Layout'
 import './App.css'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import NotFound from './pages/NotFound'
-import {Routes, Route, Navigate} from 'react-router-dom'
+
 
 function App() {
   return (
