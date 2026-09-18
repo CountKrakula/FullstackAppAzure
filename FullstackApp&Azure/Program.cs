@@ -64,13 +64,9 @@ namespace FullstackApp_Azure
 
             app.UseMiddleware<GlobalExceptionMiddleware>();
             
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-                app.MapScalarApiReference();
-            }
-
+            app.MapOpenApi();
+            app.MapScalarApiReference();
+            
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
