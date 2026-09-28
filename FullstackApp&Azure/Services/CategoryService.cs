@@ -9,10 +9,12 @@ namespace FullstackApp_Azure.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ILogger<CategoryService> _logger;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
+            _logger = logger;
         }
         public async Task<CategoryDTO> CreateCategory(CreateCategoryDTO newCategory, string userId)
         {
@@ -23,6 +25,8 @@ namespace FullstackApp_Azure.Services
             };
 
             var createdCategory = await _categoryRepository.CreateCategory(category);
+
+            _logger.LogInformation("Category {CategoryId} created for user {UserId}", createdCategory.Id, userId);
 
             return new CategoryDTO
             {

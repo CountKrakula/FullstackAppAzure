@@ -13,10 +13,12 @@ namespace FullstackApp_Azure.Controllers
     public class SubscriptionController : ControllerBase
     {
         private readonly ISubscriptionService _subscriptionService;
-        
-        public SubscriptionController(ISubscriptionService subscriptionService)
+        private readonly ILogger<SubscriptionController> _logger;
+
+        public SubscriptionController(ISubscriptionService subscriptionService, ILogger<SubscriptionController> logger)
         {
             _subscriptionService = subscriptionService;
+            _logger = logger;
         }
         
        
@@ -27,10 +29,11 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                return Unauthorized();  
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetAllSubscriptions));
+                return Unauthorized();
             }
-            
-            var subscriptions = await _subscriptionService.GetSubscriptions(userId);
+
+            var subscriptions =await _subscriptionService.GetSubscriptions(userId);
             return Ok(subscriptions);
         }
         
@@ -43,12 +46,16 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetSubscriptionById));
                 return Unauthorized();
             }
 
             var subscription = await _subscriptionService.GetSubscriptionById(id, userId);
             if (subscription == null)
+            {
+                _logger.LogDebug("Subscription {SubscriptionId} not found for user {UserId}", id, userId);
                 return NotFound();
+            }
             
             return Ok(subscription);
             
@@ -63,6 +70,7 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(CreateSubscription));
                 return Unauthorized();
             };
 
@@ -83,9 +91,10 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(UpdateSubscription));
                 return Unauthorized();
             }
-         
+
             var updated = await _subscriptionService.UpdateSubscription(id, subscription, userId);
 
             if (!updated)
@@ -104,6 +113,7 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(DeleteSubscription));
                 return Unauthorized();
             }
 

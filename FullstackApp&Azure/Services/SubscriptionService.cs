@@ -8,10 +8,12 @@ namespace FullstackApp_Azure.Services;
 public class SubscriptionService : ISubscriptionService
 {
     private readonly ISubscriptionRepository _subscriptionRepository;
-    
-    public SubscriptionService(ISubscriptionRepository subscriptionRepository)
+    private readonly ILogger<SubscriptionService> _logger;
+
+    public SubscriptionService(ISubscriptionRepository subscriptionRepository, ILogger<SubscriptionService> logger)
     {
         _subscriptionRepository =  subscriptionRepository;
+        _logger = logger;
     }
     
     public async Task<List<SubscriptionDTO>> GetSubscriptions(string userId)
@@ -72,6 +74,8 @@ public class SubscriptionService : ISubscriptionService
         
         var createdSubscription = await _subscriptionRepository.CreateSubscription(subscription);
 
+        _logger.LogInformation("Subscription {SubscriptionId} created for user {UserId}", createdSubscription.Id, userId);
+
         return new SubscriptionDTO()
         {
             Id = createdSubscription.Id,
@@ -92,6 +96,7 @@ public class SubscriptionService : ISubscriptionService
 
         if (existingSubscription == null)
         {
+            _logger.LogWarning("Update failed: subscription {SubscriptionId} not found for user {UserId}", id, userId);
             return false;
         }
         
@@ -104,11 +109,25 @@ public class SubscriptionService : ISubscriptionService
         existingSubscription.IsActive = subscription.IsActive;
         existingSubscription.NextBillingDate = subscription.NextBillingDate;
         
-        return await _subscriptionRepository.UpdateSubscription(existingSubscription);
+        var updated = await _subscriptionRepository.UpdateSubscription(existingSubscription);
+
+        if (updated)
+            _logger.LogInformation("Subscription {SubscriptionId} updated for user {UserId}", id, userId);
+        else
+            _logger.LogWarning("Update of subscription {SubscriptionId} for user {UserId} affected no rows", id, userId);
+
+        return updated;
     }
 
     public async Task<bool> DeleteSubscription(int id, string userId)
     {
-        return await _subscriptionRepository.DeleteSubscription(id, userId);
+        var deleted = await _subscriptionRepository.DeleteSubscription(id, userId);
+
+        if (deleted)
+            _logger.LogInformation("Subscription {SubscriptionId} deleted for user {UserId}", id, userId);
+        else
+            _logger.LogWarning("Delete failed: subscription {SubscriptionId} not found for user {UserId}", id, userId);
+
+        return deleted;
     }
 }

@@ -14,10 +14,12 @@ namespace FullstackApp_Azure.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly ILogger<CategoryController> _logger;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, ILogger<CategoryController> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -27,6 +29,7 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetAllCategories));
                 return Unauthorized();
             }
 
@@ -43,12 +46,16 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetCategoryById));
                 return Unauthorized();
             }
 
             var category = await _categoryService.GetCategoryById(id, userId);
             if (category == null)
+            {
+                _logger.LogDebug("Category {CategoryId} not found for user {UserId}", id, userId);
                 return NotFound();
+            }
 
             return Ok(category);
 
@@ -63,6 +70,7 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
+                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(CreateCategory));
                 return Unauthorized();
             }
             ;
