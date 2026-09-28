@@ -29,7 +29,6 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetAllCategories));
                 return Unauthorized();
             }
 
@@ -46,7 +45,6 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetCategoryById));
                 return Unauthorized();
             }
 
@@ -70,7 +68,6 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(CreateCategory));
                 return Unauthorized();
             }
             ;

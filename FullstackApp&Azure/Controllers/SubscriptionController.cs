@@ -20,8 +20,8 @@ namespace FullstackApp_Azure.Controllers
             _subscriptionService = subscriptionService;
             _logger = logger;
         }
-        
-       
+
+
         [HttpGet]
         public async Task<ActionResult<List<SubscriptionDTO>>> GetAllSubscriptions()
         {
@@ -29,24 +29,22 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetAllSubscriptions));
                 return Unauthorized();
             }
 
-            var subscriptions =await _subscriptionService.GetSubscriptions(userId);
+            var subscriptions = await _subscriptionService.GetSubscriptions(userId);
             return Ok(subscriptions);
         }
-        
-      
+
+
         [HttpGet]
         [Route("{id:int}")] // Route constraint — restricts {id} to only match integers.
-        public async Task<ActionResult<SubscriptionDTO>>  GetSubscriptionById(int id)
+        public async Task<ActionResult<SubscriptionDTO>> GetSubscriptionById(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(GetSubscriptionById));
                 return Unauthorized();
             }
 
@@ -56,9 +54,9 @@ namespace FullstackApp_Azure.Controllers
                 _logger.LogDebug("Subscription {SubscriptionId} not found for user {UserId}", id, userId);
                 return NotFound();
             }
-            
+
             return Ok(subscription);
-            
+
         }
 
         [HttpPost]
@@ -70,17 +68,17 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(CreateSubscription));
                 return Unauthorized();
-            };
+            }
+            ;
 
             var createdSubscription = await _subscriptionService.CreateSubscription(newSubscription, userId);
-            
+
             // CreatedAtAction returns 201 + a Location header pointing to the new resource + the resource itself in the body.
             // nameof(GetSubscriptionById) gives the method name as a string
-           
+
             return CreatedAtAction(nameof(GetSubscriptionById), new { id = createdSubscription.Id }, createdSubscription);
-            
+
         }
 
         [HttpPut]
@@ -91,7 +89,6 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(UpdateSubscription));
                 return Unauthorized();
             }
 
@@ -101,7 +98,7 @@ namespace FullstackApp_Azure.Controllers
             {
                 return NotFound();
             }
-            
+
             return NoContent();
         }
 
@@ -113,7 +110,6 @@ namespace FullstackApp_Azure.Controllers
 
             if (userId == null)
             {
-                _logger.LogWarning("Missing user id claim on authenticated request to {Action}", nameof(DeleteSubscription));
                 return Unauthorized();
             }
 
@@ -123,7 +119,7 @@ namespace FullstackApp_Azure.Controllers
             {
                 return NotFound();
             }
-            
+
             return NoContent();
         }
 
